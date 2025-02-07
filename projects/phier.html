@@ -4,23 +4,23 @@
   <meta charset="utf-8">
   <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
   <!-- Replace the content tag with appropriate information -->
-  <meta name="description" content="DESCRIPTION META TAG">
-  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/>
-  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>
+  <!-- <meta name="description" content="DESCRIPTION META TAG"> -->
+  <!-- <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/> -->
+  <!-- <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/> -->
   <meta property="og:url" content="URL OF THE WEBSITE"/>
   <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
-  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image" content="static/images/your_banner_image.png" />
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
 
 
-  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
-  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <!-- <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
+  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG"> -->
   <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
-  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
-  <meta name="twitter:card" content="summary_large_image">
+  <!-- <meta name="twitter:image" content="static/images/your_twitter_banner_image.png"> -->
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
   <!-- Keywords for your paper to be indexed by-->
-  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="keywords" content="state classification visual reasoning">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
@@ -149,10 +149,12 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <div column is-four-fifths>
-        <div class="item">
-          <img src="static/images/pull.png" alt="Pull Figure"/>
-        </div> 
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <div class="item">
+            <img src="static/images/pull.png" alt="Pull Figure"/>
+          </div> 
+        </div>
     </div>
   </div>
 </section> 
@@ -192,7 +194,7 @@
 
 <!-- Youtube video --> 
   <div class="hero-body">
-    <div class="container">
+    <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
           <h2 class="title is-3">State Classification</h2>
@@ -221,7 +223,7 @@
 <!-- End youtube video -->
 
 <div class="section hero is-light">
-  <div class="container">
+  <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Method</h2>
@@ -261,30 +263,36 @@
 </section>
 
 <div class="hero-body">
-  <div class="container">
+  <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Results</h2>
         <div class="content has-text-justified">
           <p> 
             We evaluate PHIER on the state classification task in two robotics environments, CALVIN and BEHAVIOR. Beyond the standard test settings, we focus on few-shot, out-of-distribution tasks involving unseen object-predicate combinations and novel predicates.
-
             PHIER significantly outperforms existing methods on out-of-distribution tasks, including both supervised approaches trained on the same amount of data and inference-only vision-language models (VLMs) trained on large corpora of real-world examples. 
-
+            <br><br>
             PHIER improves upon the top-performing prior work in out-of-distribution tasks by 22.5 percent points on CALVIN and 8.3 percent points on BEHAVIOR.
           </p>
-        </div>      
-        <div class="item">
-          <img src="static/images/ood.png" alt="OOD Results Figure"/>
-        </div>           
+        </div>   
+
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item">
+            <img src="static/images/ood_calvin.png" alt="CALVIN Results Figure"/>
+          </div>           
+          <div class="item">
+            <img src="static/images/ood_behavior.png" alt="BEHAVIOR Results Figure"/>
+          </div>        
+        </div>
         <div class="content has-text-justified">
           <br>
           <p> 
             Notably, trained solely on simulated data, PHIER also outperforms supervised baselines on
-            few-shot generalization to real-world state classification tasks by 10 percent points, while
-            performing comparably to VLMs trained on vast amounts of real-world data.
+            few-shot generalization to real-world state classification tasks by 10 percent points.
+            <!-- , while performing comparably to VLMs trained on vast amounts of real-world data. -->
           </p>
         </div>         
+        <!-- <div class="item" style="width: 90%; margin: 0 auto;"> -->
         <div class="item">
           <img src="static/images/real_world.png" alt="Real World Results Figure"/>
         </div> 
@@ -303,7 +311,7 @@
 
 <!--BibTex citation -->
   <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
+    <div class="container is-max-desktop">
       <h2 class="title">BibTeX</h2>
       <pre><span class="texttt">BibTex Code Here</span></pre>
     </div>
