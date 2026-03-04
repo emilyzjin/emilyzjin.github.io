@@ -47,10 +47,7 @@
 				      src="images/headshot_new.png"
 				      alt="profile photo"
 				      class="headshot-img"
-				      onmouseenter="this.src='images/headshot_cartoon.png'"
-				      onmouseleave="this.src='images/headshot_new.png'"
-				      onfocus="this.src='images/headshot_cartoon.png'"
-				      onblur="this.src='images/headshot_new.png'"
+				      onmouseenter="this.src = this.src.includes('headshot_new.png') ? 'images/headshot_cartoon.png' : 'images/headshot_new.png'"
 				    >
 				  </a>
 				</td>
