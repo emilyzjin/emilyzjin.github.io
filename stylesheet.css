@@ -133,3 +133,36 @@ h2 {
 span.highlight {
   background-color: #ffffd0;
 }
+
+.headshot {
+  display: block;
+  position: relative;
+  width: 100%;
+  border-radius: 50%;
+  overflow: hidden; /* ensures circle crop applies to both */
+}
+
+.headshot-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.headshot-img--hover {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
+}
+
+.headshot:hover .headshot-img--hover {
+  opacity: 1;
+}
+
+/* optional: keyboard accessibility */
+.headshot:focus .headshot-img--hover,
+.headshot:focus-visible .headshot-img--hover {
+  opacity: 1;
+}
