@@ -47,6 +47,7 @@
 				      src="images/headshot_new.png"
 				      alt="profile photo"
 				      class="headshot-img"
+				      onload="if (!this.dataset.initialized) { this.dataset.initialized = '1'; this.src = Math.random() < 0.5 ? 'images/headshot_new.png' : 'images/headshot_cartoon.png'; }"
 				      onmouseenter="this.src = this.src.includes('headshot_new.png') ? 'images/headshot_cartoon.png' : 'images/headshot_new.png'"
 				    >
 				  </a>
