@@ -1,0 +1,210 @@
+{
+  "containment": [
+    {
+      "id": "con01",
+      "instruction": "Store the bowls inside the minifridge.",
+      "plan": [
+        "pick(bowl#3_28)",
+        "place(bowl#3_28, minifridge_10, [576, 440])",
+        "pick(bowl#1_25)",
+        "place(bowl#1_25, minifridge_10, [544, 479])",
+        "pick(bowl#2_26)",
+        "place(bowl#2_26, minifridge_10, [552, 414])"
+      ],
+      "trace": [
+        {
+          "label": "Step 1",
+          "text": "There are three large bowls visible on the kitchen counters, and the minifridge is initially open and empty inside. To complete the task, I just need to place the bowls into the minifridge. I will start by placing bowl#3_28. Since there is ample free space, text is sufficient for this step.",
+          "visual": false
+        },
+        {
+          "label": "Step 2",
+          "text": "I will now place bowl#1_25 into the minifridge to continue fulfilling the task requirements . My main concern is ensuring that I leave enough room for the last bowl that needs to be stored inside later. I will use a post-action image to verify that this bowl's position preserves sufficient space for the remaining objects.",
+          "visual": true
+        },
+        {
+          "label": "Step 3",
+          "text": "Finally, I will place bowl#2_26 inside the minifridge to complete the task. Because the fridge is now crowded, I must be extremely careful to avoid collisions with the objects already inside. A post-action image is necessary to confirm that the placement is precise and fits within the tight geometric constraints.",
+          "visual": true
+        }
+      ],
+      "scene_global": "examples/containment/con01/global.png",
+      "scene_zoom": "examples/containment/con01/zoom.png",
+      "subgoals": [
+        "examples/containment/con01/subgoal_1.png",
+        "examples/containment/con01/subgoal_2.png",
+        "examples/containment/con01/subgoal_3.png"
+      ]
+    },
+    {
+      "id": "con02",
+      "instruction": "Store the bowls inside the minifridge.",
+      "plan": [
+        "pick(bowl#1_32)",
+        "place(bowl#1_32, minifridge_14, [192, 524])",
+        "pick(bowl#2_33)",
+        "place(bowl#2_33, minifridge_14, [211, 513])"
+      ],
+      "trace": [
+        {
+          "label": "Step 1",
+          "text": "There are two bowls in this kitchen environment. The minifridge already contains two large pots, but I think there is still enough remaining space because the bowls are relatively small. I will first place bowl#1_32 in the open area that avoids colliding with the pots and leaves space for the second bowl. Since I want to be careful, I will use a post-action image to verify that the bowl fits cleanly.",
+          "visual": true
+        },
+        {
+          "label": "Step 2",
+          "text": "I will now place bowl#2_33 inside the fridge to complete the task. The second bowl is also small, so there is still sufficient space in the fridge to the right of the first bowl. I do not need to worry about constraining future placements, so text is sufficient for this step.",
+          "visual": false
+        }
+      ],
+      "scene_global": "examples/containment/con02/global.png",
+      "scene_zoom": "examples/containment/con02/zoom.png",
+      "subgoals": [
+        "examples/containment/con02/subgoal_1.png",
+        "examples/containment/con02/subgoal_2.png"
+      ]
+    },
+    {
+      "id": "con03",
+      "instruction": "Store the bowls inside the minifridge.",
+      "plan": [
+        "pick(kitchenpot#1_29)",
+        "place(kitchenpot#1_29, sink_counter_right_6, [392, 473])",
+        "pick(bowl#2_16)",
+        "place(bowl# 2_16, minifridge_11, [751, 578])",
+        "pick(bowl#3_17)",
+        "place(bowl#3_17, minifridge_11, [729, 571])",
+        "pick(bowl#1_15)",
+        "place(bowl#1_15, minifridge_11, [743, 553])"
+      ],
+      "trace": [
+        {
+          "label": "Step 1",
+          "text": "I must place three bowls inside the fridge. There are two large pots inside of the fridge right now. To create space, I need to remove kitchenpot#1 from the fridge to make more room for the primary task objects. I will use the left sink counter as the destination surface. It is quite large, so there is no need to verify the placement with a post-action image.",
+          "visual": false
+        },
+        {
+          "label": "Step 2",
+          "text": "I will now place bowl#2_16 into the fridge to begin fulfilling the task requirements. There is plenty of open space now, but I want to be careful so that I preserve enough space for the later placements. I will use a post-action image to ensure that this placement is precise.",
+          "visual": true
+        },
+        {
+          "label": "Step 3",
+          "text": "I will proceed by placing bowl#3_17 inside the fridge. The fridge is still pretty empty. Since only one bowl remains to be placed after this step, the current placement is unlikely to create significant downstream constraints. Therefore, I can proceed with a reasonable placement using text reasoning alone.",
+          "visual": false
+        },
+        {
+          "label": "Step 4",
+          "text": "Finally, I am moving bowl#1_15 into the minifridge to complete the set of goal objects. The interior is now very full, making it critical that this last bowl is placed perfectly to fit without hitting anything else. I will check a post-action image to ensure the final placement is successful and collision-free. The task is now complete, and I will output the final answer.",
+          "visual": true
+        }
+      ],
+      "scene_global": "examples/containment/con03/global.png",
+      "scene_zoom": "examples/containment/con03/zoom.png",
+      "subgoals": [
+        "examples/containment/con03/subgoal_1.png",
+        "examples/containment/con03/subgoal_2.png",
+        "examples/containment/con03/subgoal_3.png",
+        "examples/containment/con03/subgoal_4.png"
+      ]
+    }
+  ],
+  "sorting": [
+    {
+      "id": "sor01",
+      "instruction": "Sort the tomatoes and zucchinis by type into the braisers .",
+      "plan": [
+        "pick(veggietomato_28)",
+        "place(veggietomato_28, braiserbody#1_26, [364, 478])",
+        "pick(veggietomato#1_29)",
+        "place(veggietomato#1_29, braiserbody#1_26, [363, 491])",
+        "pick(veggiezucchini_30)",
+        "place(veggiezucchini_30, braiserbody#2_27, [311, 442])"
+      ],
+      "trace": [
+        {
+          "label": "Step 1",
+          "text": "I will begin by sorting the two tomatoes. I will place veggietomato_28 into braiserbody#1_26 as part of the sorting task. Since the braiser is initially empty, there is plenty of open space. The tomato can be placed freely without precise positioning, so text descriptions provide sufficient information for a successful placement.",
+          "visual": false
+        },
+        {
+          "label": "Step 2",
+          "text": "Next, I'll move the second tomato, veggietomato#1_29, into the same braiser . Since the first tomato is already inside, I need to be more careful about the placement to ensure the two tomatoes fit without colliding. I will examine a post-action image to verify that the second tomato is placed correctly within the remaining space.",
+          "visual": true
+        },
+        {
+          "label": "Step 3",
+          "text": "Finally, I will place veggiezucchini_30 into braiserbody#2_27 to complete the task. Because the zucchini is long, I need to position it carefully so that it fits properly without hitting the sides of the braiser . I will use a post-action image to confirm that the zucchini successfully fits inside the braiser . The sorting task is now complete, so I will output the final plan.",
+          "visual": true
+        }
+      ],
+      "scene_global": "examples/sorting/sor01/global.png",
+      "scene_zoom": "examples/sorting/sor01/zoom.png",
+      "subgoals": [
+        "examples/sorting/sor01/subgoal_1.png",
+        "examples/sorting/sor01/subgoal_2.png",
+        "examples/sorting/sor01/subgoal_3.png"
+      ]
+    },
+    {
+      "id": "sor02",
+      "instruction": "Sort the cabbages and zucchinis by type into the braisers .",
+      "plan": [
+        "pick(veggiezucchini_29)",
+        "place(veggiezucchini_29, braiserbody#16_45, [575, 486])",
+        "pick(veggiezucchini#1_30)",
+        "place(veggiezucchini#1_30, braiserbody#16_45, [571, 499])",
+        "pick(veggiezucchini#2_31)",
+        "place(veggiezucchini#2_31, braiserbody#16_45, [574, 440])",
+        "pick(veggiecabbage#1_27)",
+        "place(veggiecabbage#1_27, braiserbody#25_54, [433, 474])",
+        "pick(veggiecabbage_26)",
+        "place(veggiecabbage_26, braiserbody#25_54, [439, 474])",
+        "pick(veggiecabbage#2_28, [742, 489])",
+        "place(veggiecabbage#2_28, braiserbody#25_54, [445, 474])"
+      ],
+      "trace": [
+        {
+          "label": "Step 1",
+          "text": "There are three zucchinis and three cabbages in the scene. Since the zucchinis are longer, I'll sort them into the larger braiser (braiserbody#16_45), starting with the largest zucchini (veggiezucchini_29). To ensure that veggiezucchini_29 fits properly inside the braiser , I need a post-action image to verify its placement.",
+          "visual": true
+        },
+        {
+          "label": "Step 2",
+          "text": "Next, I need to place veggiezucchini#1_30 into the same braiser to continue the sorting process. There is currently plenty of room in the container, and this zucchini is shorter. Since I don't need to worry about tight spatial constraints for this specific move, text-based instructions are sufficient for this step.",
+          "visual": false
+        },
+        {
+          "label": "Step 3",
+          "text": "I am moving the last zucchini into the braiser to complete this part of the sorting task. The container still has ample room, but I need to find a precise spot that avoids hitting other items. A post-action image is useful to check that veggiezucchini#2_31 the placement.",
+          "visual": true
+        },
+        {
+          "label": "Step 4",
+          "text": "Now, I will sort the cabbages into braiserbody#25_54, which is the smaller braiser . I will start by moving veggiecabbage#1_27. The braiser is currently empty, so the placement is not restricted. I can rely on text alone to guide this action without needing visual confirmation of the result.",
+          "visual": false
+        },
+        {
+          "label": "Step 5",
+          "text": "I need to place the next cabbage into the second braiser to keep the food items organized. When placing veggiecabbage_26, I need to be careful to ensure that it doesn't collide with the existing cabbage. A post-action image is necessary to validate that the cabbage is positioned safely within the container.",
+          "visual": true
+        },
+        {
+          "label": "Step 6",
+          "text": "I will move the final cabbage into the second braiser to finish the task. Since the container is very crowded, I must be careful with the placement to ensure a collision-free fit. I'll check a post-action image to verify the final arrangement is successful. The task is now complete, and I will output the final answer.",
+          "visual": true
+        }
+      ],
+      "scene_global": "examples/sorting/sor02/global.png",
+      "scene_zoom": "examples/sorting/sor02/zoom.png",
+      "subgoals": [
+        "examples/sorting/sor02/subgoal_1.png",
+        "examples/sorting/sor02/subgoal_2.png",
+        "examples/sorting/sor02/subgoal_3.png",
+        "examples/sorting/sor02/subgoal_4.png",
+        "examples/sorting/sor02/subgoal_5.png",
+        "examples/sorting/sor02/subgoal_6.png"
+      ]
+    }
+  ]
+}

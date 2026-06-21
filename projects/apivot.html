@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APIVOT: Adaptive Planning with Interleaved Vision-Language Thoughts</title>
+<meta name="author" content="Emily Jin">
+<meta name="description" content="Adaptive long-horizon task planning with language reasoning and imagined visual future states.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="APIVOT">
+<meta property="og:description" content="Adaptive Planning with Interleaved Vision-Language Thoughts">
+<meta property="og:url" content="https://emilyzjin.github.io/projects/apivot.html">
+<meta property="og:image" content="https://emilyzjin.github.io/projects/apivot_assets/card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="APIVOT">
+<meta name="twitter:description" content="Adaptive Planning with Interleaved Vision-Language Thoughts">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#ffffff;
+  --bg-soft:#fafafb;
+  --bg-tint:#f4f5fb;
+  --ink:#0f172a;
+  --ink-2:#334155;
+  --muted:#475569;
+  --line:#e6e8ee;
+  --line-soft:#eef0f3;
+  --accent:#4f46e5;
+  --accent-700:#4338ca;
+  --accent-100:#e0e7ff;
+  --accent-50:#eef0fe;
+  --accent-ink:#312e81;
+  --ok:#15803d;
+  --ok-bg:#f0fdf4;
+  --ok-line:#bbf7d0;
+  --bad:#b91c1c;
+  --bad-bg:#fef2f2;
+  --bad-line:#fecaca;
+  --radius:12px;
+  --radius-sm:8px;
+  --maxw:960px;
+  --shadow:0 1px 2px rgba(15,23,42,.04), 0 8px 24px rgba(15,23,42,.05);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.65;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-700);text-decoration:underline}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* special wordmark for the method name */
+.apv{font-weight:700;letter-spacing:.02em;color:var(--accent)}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:saturate(180%) blur(10px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav-inner{
+  max-width:var(--maxw);margin:0 auto;padding:12px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.nav-brand{font-weight:700;letter-spacing:.04em;color:var(--ink);font-size:16px}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-links a{color:var(--muted);font-size:13.5px;font-weight:500}
+.nav-links a:hover{color:var(--accent);text-decoration:none}
+.nav-links a.active{color:var(--accent);font-weight:600}
+.nav-toggle{display:none}
+@media(max-width:760px){
+  .nav-links{display:none}
+}
+
+/* ---------- buttons ---------- */
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:14px;font-weight:500;
+  padding:9px 18px;border-radius:9px;
+  border:1px solid var(--line);background:#fff;color:var(--ink-2);
+  transition:all .15s ease;
+}
+.btn:hover{border-color:#cbd5e1;background:var(--bg-soft);text-decoration:none;color:var(--ink)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-700);border-color:var(--accent-700);color:#fff}
+.btn svg{width:15px;height:15px}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 40px;text-align:center}
+.eyebrow{
+  font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:18px;
+}
+.hero h1{
+  font-size:38px;line-height:1.18;font-weight:700;letter-spacing:-.02em;
+  margin:0 auto;max-width:780px;color:var(--ink);
+}
+.hero .subtitle{
+  font-size:18px;color:var(--muted);max-width:640px;margin:20px auto 0;line-height:1.6;
+}
+.authors{margin:26px auto 0;max-width:720px;font-size:15.5px;color:var(--ink-2);line-height:1.9}
+.authors a{font-weight:500}
+.affil{font-size:13.5px;color:var(--muted);margin-top:6px}
+.hero .btn-row{margin-top:28px}
+
+/* ---------- section scaffolding ---------- */
+section{padding:52px 0;border-top:1px solid var(--line-soft)}
+section:first-of-type{border-top:none}
+.section-eyebrow{
+  font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:10px;
+}
+h2{font-size:28px;line-height:1.25;font-weight:700;letter-spacing:-.015em;margin:0 0 8px}
+h3{font-size:19px;font-weight:600;margin:0 0 8px;color:var(--ink)}
+p{margin:0 0 16px}
+.lead{font-size:17px;color:var(--ink-2);max-width:none}
+.muted{color:var(--muted)}
+.center{text-align:center}
+.caption{font-size:13.5px;color:var(--muted);line-height:1.6;margin-top:12px}
+
+/* ---------- media placeholders ---------- */
+.media{
+  border:1px dashed #c7cdda;border-radius:var(--radius);
+  background:
+    repeating-linear-gradient(45deg,#f7f8fc,#f7f8fc 12px,#f2f4fa 12px,#f2f4fa 24px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;color:#8a93a8;padding:28px;min-height:180px;gap:8px;
+}
+.media .ph-icon{width:34px;height:34px;opacity:.6}
+.media .ph-label{font-size:13px;font-weight:600;color:#6b7689}
+.media .ph-path{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#9aa3b5}
+.media.tall{min-height:300px}
+.media.video{min-height:420px}
+
+/* ---------- real figures ---------- */
+.figure{
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:#fff;padding:14px;box-shadow:var(--shadow);
+}
+.figure img,.figure video{display:block;width:100%;height:auto;border-radius:6px}
+.figure.plain{padding:0;border:none;box-shadow:none;background:transparent}
+.figure.plain img{border-radius:var(--radius)}
+
+/* ---------- method figure ---------- */
+.method-figure{
+  margin-top:22px;border:1px solid var(--line);border-radius:var(--radius);
+  background:#fff;padding:14px;box-shadow:var(--shadow);
+}
+.method-figure img{display:block;width:100%;height:auto;border-radius:6px}
+
+/* ---------- method full-width text ---------- */
+.method-text p{font-size:17px;color:var(--ink-2);line-height:1.75;margin:0 0 16px}
+.method-text p:last-child{margin-bottom:0}
+
+/* ---------- modality cards ---------- */
+.modality-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+@media(max-width:760px){.modality-cards{grid-template-columns:1fr}}
+.mcard{
+  position:relative;background:#fff;border:1px solid var(--line);border-top:3px solid var(--accent);
+  border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.mcard:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(15,23,42,.07),0 18px 36px rgba(15,23,42,.09)}
+.mcard-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.mcard-icon{
+  flex:0 0 auto;width:42px;height:42px;border-radius:11px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--accent-100);color:var(--accent-700);
+}
+.mcard-icon svg{width:21px;height:21px}
+.mcard h3{margin:0;font-size:17.5px}
+.mcard p{font-size:14.5px;color:var(--muted);margin:0;line-height:1.6}
+.mcard-eg{
+  margin-top:16px;font-size:14px;line-height:1.55;color:var(--accent-ink);
+  background:var(--accent-50);border-left:3px solid var(--accent);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 14px;
+}
+.eg-label{
+  display:inline-block;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:#fff;background:var(--accent);padding:2px 9px;border-radius:999px;margin-right:8px;vertical-align:1.5px;
+}
+/* vision card = teal accent */
+.mcard-vis{border-top-color:#0d9488}
+.mcard-vis .mcard-icon{background:#ccfbf1;color:#0f766e}
+.mcard-vis .mcard-eg{color:#134e4a;background:#f0fdfa;border-left-color:#0d9488}
+.mcard-vis .eg-label{background:#0d9488}
+
+/* ---------- subsection heading ---------- */
+.subhead{font-size:23px;font-weight:600;letter-spacing:-.01em;margin:0 0 10px}
+.subsection{margin-top:52px;padding-top:44px;border-top:1px solid var(--line-soft)}
+
+/* ---------- task cards ---------- */
+.task-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+@media(max-width:760px){.task-cards{grid-template-columns:1fr}}
+.task-card{
+  border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+  box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.task-card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(15,23,42,.07),0 18px 36px rgba(15,23,42,.09)}
+.task-card .media{border:none;border-radius:0;border-bottom:1px solid var(--line-soft);min-height:160px}
+.task-card .task-img{display:block;width:100%;height:170px;object-fit:cover;border-bottom:1px solid var(--line-soft)}
+.task-card .tc-body{padding:18px;display:flex;flex-direction:column;flex:1}
+.task-card h3{font-size:17px;margin:0 0 12px;text-align:center}
+.task-card .tc-instr{
+  font-size:13.5px;color:var(--accent-ink);background:var(--accent-50);
+  border-left:3px solid var(--accent);border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  padding:10px 12px;margin-bottom:12px;line-height:1.5;
+}
+.task-card .tc-test{font-size:13.5px;color:var(--muted);margin:0;line-height:1.6}
+.task-card .tc-test strong{color:var(--ink);font-weight:600}
+
+/* ---------- result cards (2x2) ---------- */
+.result-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:32px}
+@media(max-width:760px){.result-cards{grid-template-columns:1fr}}
+.rcard{
+  border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:var(--radius);background:#fff;
+  padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.rcard:nth-child(even){border-top-color:#0d9488}
+.rcard:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(15,23,42,.07),0 18px 36px rgba(15,23,42,.09)}
+.rcard .figure{margin:0 0 16px}
+.rcard .figure img{height:200px;object-fit:contain}
+.rcard h3{font-size:16.5px;margin-bottom:14px;text-align:center}
+.rcard .keypoints{margin-top:0}
+.rcard .keypoints li{font-size:14px;margin-bottom:8px}
+
+/* ---------- additional results: expandable ---------- */
+.ar-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:32px}
+@media(max-width:760px){.ar-tabs{grid-template-columns:1fr 1fr}}
+.ar-tab{
+  border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:var(--radius);
+  background:#fff;box-shadow:var(--shadow);padding:16px 14px;cursor:pointer;text-align:center;
+  font-size:14px;font-weight:600;color:var(--ink);line-height:1.35;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.ar-tab:nth-child(even){border-top-color:#0d9488}
+.ar-tab:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(15,23,42,.07),0 18px 36px rgba(15,23,42,.09)}
+.ar-tab.active{background:var(--accent-50)}
+.ar-tab:nth-child(even).active{background:#f0fdfa}
+.ar-tab .ar-caret{display:block;margin:8px auto 0;width:14px;height:14px;color:var(--muted);opacity:.55;transition:transform .2s ease}
+.ar-tab.active .ar-caret{transform:rotate(180deg);color:var(--accent);opacity:1}
+.ar-tab:nth-child(even).active .ar-caret{color:#0d9488}
+.ar-panel{display:none}
+.ar-panel.active{
+  display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center;
+  margin-top:16px;border:1px solid var(--line);border-radius:var(--radius);
+  background:#fff;box-shadow:var(--shadow);padding:24px;animation:arfade .25s ease;
+}
+@media(max-width:760px){.ar-panel.active{grid-template-columns:1fr}}
+.ar-panel .figure{margin:0}
+.ar-panel .figure img{height:260px;object-fit:contain}
+.ar-panel .keypoints{margin:0}
+.ar-panel .keypoints li{font-size:15px}
+@keyframes arfade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* ---------- results table ---------- */
+.rtable-wrap{margin-top:24px;overflow-x:auto}
+.rtable{width:100%;border-collapse:collapse;font-size:14.5px}
+.rtable th,.rtable td{padding:10px 14px;text-align:center;font-variant-numeric:tabular-nums}
+.rtable th:first-child,.rtable td:first-child{text-align:left}
+.rtable thead th{font-weight:600;color:var(--ink);border-bottom:2px solid var(--line)}
+.rtable tbody td{border-bottom:1px solid var(--line-soft);color:var(--ink-2)}
+.rtable tr.group td{
+  text-align:left;font-style:italic;color:var(--muted);font-size:12.5px;
+  letter-spacing:.02em;background:var(--bg-soft);padding-top:11px;padding-bottom:7px;
+}
+.rtable tr.apivot td{
+  background:var(--accent-50);color:var(--accent-ink);font-weight:700;
+  border-top:2px solid var(--accent);border-bottom:none;
+}
+/* subtle highlight on the Average column */
+.rtable th.avg-col,
+.rtable tbody td:nth-child(2){background:var(--accent-50)}
+.rtable tbody tr.apivot td:nth-child(2){background:var(--accent-100)}
+/* grouped task-family header */
+.rtable thead .grp{border-bottom:1px solid var(--line);font-weight:600;font-size:13px;letter-spacing:.02em}
+.rtable thead .sub{font-weight:500}
+.rtable .idtag{font-weight:400;font-size:11px;color:var(--muted);margin-left:2px}
+
+/* ---------- example carousel ---------- */
+.ex-carousel{margin-top:22px}
+.ex-viewport{overflow:hidden;border-radius:var(--radius)}
+.ex-track{display:flex;transition:transform .35s ease}
+.ex-slide{flex:0 0 100%;min-width:100%}
+.ex-slide .figure{margin:0}
+.ex-slide .caption{text-align:center;margin-top:14px}
+.ex-controls{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:18px}
+.ex-arrow{
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-2);
+  box-shadow:var(--shadow);transition:all .15s ease;
+}
+.ex-arrow:hover{border-color:#cbd5e1;background:var(--bg-soft);color:var(--ink)}
+.ex-arrow:disabled{opacity:.3;cursor:default;box-shadow:none}
+.ex-arrow svg{width:20px;height:20px}
+.ex-dots{display:flex;gap:9px;align-items:center}
+.ex-dot{width:9px;height:9px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;padding:0;transition:all .15s ease}
+.ex-dot:hover{background:#94a3b8}
+.ex-dot.active{background:var(--accent);transform:scale(1.15)}
+.ex-counter{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:42px;text-align:center}
+
+/* ---------- abstract ---------- */
+.abstract-body{font-size:17px;color:var(--ink-2);max-width:none;margin:0 auto;line-height:1.75}
+
+/* ---------- two column ---------- */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+@media(max-width:760px){.two-col{grid-template-columns:1fr;gap:24px}}
+.callout{
+  margin-top:28px;border-left:4px solid var(--accent);
+  background:var(--bg-tint);border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  padding:18px 22px;color:var(--accent-ink);font-size:16px;font-weight:500;line-height:1.6;
+}
+
+/* ---------- cards ---------- */
+.card-grid{display:grid;gap:18px;margin-top:24px}
+.cards-2{grid-template-columns:1fr 1fr}
+.cards-3{grid-template-columns:repeat(3,1fr)}
+.cards-4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:760px){.cards-2,.cards-3,.cards-4{grid-template-columns:1fr}}
+.card{
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:#fff;padding:22px;box-shadow:var(--shadow);
+}
+.card h3{font-size:17px}
+.card p{font-size:14.5px;color:var(--muted);margin:0}
+.card .example{
+  margin-top:14px;font-size:13.5px;color:var(--accent-ink);
+  background:var(--accent-50);border-radius:var(--radius-sm);padding:10px 12px;line-height:1.55;
+}
+.card .badge{
+  display:inline-flex;width:32px;height:32px;border-radius:8px;
+  align-items:center;justify-content:center;margin-bottom:12px;
+  background:var(--accent-100);color:var(--accent-700);
+}
+.card .badge svg{width:18px;height:18px}
+
+/* stage cards numbered */
+.stage .num{
+  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;
+  color:var(--accent);letter-spacing:.06em;margin-bottom:8px;
+}
+
+/* ---------- stat cards ---------- */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:8px 0 4px}
+@media(max-width:760px){.stat-grid{grid-template-columns:1fr 1fr}}
+.stat{background:var(--bg-tint);border-radius:var(--radius-sm);padding:18px 16px}
+.stat .val{font-size:30px;font-weight:700;color:var(--accent);letter-spacing:-.02em;line-height:1.1}
+.stat .lbl{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.4}
+
+/* ---------- results subsections ---------- */
+.result-block{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center;margin-top:8px}
+.result-block.flip{grid-template-columns:.95fr 1.05fr}
+.result-block.flip .text{order:2}
+.result-block.flip .fig{order:1}
+@media(max-width:760px){
+  .result-block,.result-block.flip{grid-template-columns:1fr}
+  .result-block.flip .text,.result-block.flip .fig{order:initial}
+}
+.result-block + .result-block{margin-top:44px;padding-top:44px;border-top:1px solid var(--line-soft)}
+.keypoints{list-style:none;padding:0;margin:14px 0 0}
+.keypoints li{position:relative;padding-left:24px;margin-bottom:10px;font-size:15px;color:var(--ink-2);line-height:1.55}
+.keypoints li::before{
+  content:"";position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:50%;
+  background:var(--accent);
+}
+
+/* ---------- bullets ---------- */
+.bullets{list-style:none;padding:0;margin:16px 0 0}
+.bullets li{position:relative;padding-left:26px;margin-bottom:12px;font-size:15.5px;color:var(--ink-2)}
+.bullets li::before{
+  content:"";position:absolute;left:0;top:7px;width:14px;height:14px;border-radius:4px;
+  background:var(--accent-100);border:1.5px solid var(--accent);
+}
+
+/* ---------- tabs + carousel ---------- */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.tab{
+  font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  padding:9px 18px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:#fff;color:var(--muted);transition:all .15s ease;
+}
+.tab:hover{border-color:#cbd5e1;color:var(--ink-2)}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.ex-toggle{
+  display:inline-flex;align-items:center;gap:4px;vertical-align:baseline;
+  background:none;border:none;padding:0;margin-left:4px;cursor:pointer;
+  font:inherit;font-weight:600;color:var(--accent);
+}
+.ex-toggle:hover{color:var(--accent-700);text-decoration:underline}
+.ex-caret{width:14px;height:14px;transition:transform .2s ease}
+.ex-toggle[aria-expanded="true"] .ex-caret{transform:rotate(180deg)}
+.carousel{margin-top:24px;position:relative}
+.carousel[hidden]{display:none}
+.carousel-viewport{overflow:hidden;border-radius:var(--radius);padding:4px 1px}
+.carousel-track{display:flex;transition:transform .35s ease}
+.slide{
+  flex:0 0 100%;min-width:100%;
+  border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+  padding:22px;box-shadow:var(--shadow);
+}
+.slide-cols{display:grid;grid-template-columns:0.92fr 1.08fr;gap:22px;align-items:stretch;height:430px}
+@media(max-width:760px){.slide-cols{grid-template-columns:1fr;height:auto}}
+.slide .col-left,.slide .col-right{display:flex;flex-direction:column;gap:14px;min-height:0;min-width:0;height:100%}
+@media(max-width:760px){.slide .col-left,.slide .col-right{height:auto}}
+.slide .step{margin-bottom:0;min-height:0}
+.slide .step:last-child{margin-bottom:0}
+/* steps that fill remaining height and scroll internally */
+.slide .step.grow{flex:1 1 0;display:flex;flex-direction:column}
+.slide .step.grow .trace2,.slide .step.grow .plan{flex:1 1 0;min-height:0;overflow-y:auto}
+@media(max-width:760px){
+  .slide .step.grow{flex:0 0 auto}
+  .slide .step.grow .trace2,.slide .step.grow .plan{flex:0 0 auto;max-height:300px}
+}
+.success-check{
+  display:inline-flex;align-items:center;gap:5px;margin-left:auto;
+  color:var(--ok);font-size:11px;font-weight:600;letter-spacing:.04em;
+}
+.success-check svg{width:15px;height:15px}
+.slide .step-label{
+  font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:6px;display:flex;align-items:center;gap:7px;
+}
+.slide .step-label .n{
+  width:18px;height:18px;border-radius:50%;background:var(--accent-100);color:var(--accent-700);
+  font-size:11px;display:inline-flex;align-items:center;justify-content:center;font-weight:600;letter-spacing:0;
+}
+.slide .instruction{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.45}
+.slide .img-row{display:flex;gap:12px;align-items:flex-start}
+.media-img{margin:0;min-width:0}
+.slide .img-row img,.media-img img{display:block;height:108px;width:auto;max-width:100%;border-radius:8px;border:1px solid var(--line-soft)}
+.media-img figcaption{font-size:11px;color:var(--muted);margin-top:5px;text-align:center;letter-spacing:.02em}
+.lm{color:var(--muted);font-weight:500;text-transform:none;letter-spacing:0;font-size:11px}
+/* reasoning trace blocks (scroll container is the .grow step) */
+.trace2{display:flex;flex-direction:column;gap:10px;padding-right:4px}
+.tstep{border:1px solid var(--line-soft);border-radius:var(--radius-sm);padding:11px 13px;background:var(--bg-soft)}
+.tstep .tstep-h{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tstep p{margin:0;font-size:13.5px;line-height:1.55;color:var(--ink-2);overflow-wrap:break-word;word-break:break-word}
+.tstep.vis{background:var(--accent-50);border-color:var(--accent-100);border-left:3px solid var(--accent)}
+.tstep.vis .tstep-h{color:var(--accent-700)}
+.vt-chip{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--accent-700);background:#fff;border:1px solid var(--accent-100);border-radius:999px;padding:1px 8px}
+.vt-chip svg{width:11px;height:11px}
+/* imagined subgoal gallery: 3 visible, scroll horizontally, not magnifiable */
+.subgoals{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.subgoals .sg{flex:0 0 calc((100% - 16px)/3);height:92px;object-fit:cover;border-radius:7px;border:1px solid var(--line-soft)}
+/* successful plan list */
+.slide .plan{
+  background:var(--accent-50);border-radius:var(--radius-sm);padding:12px 14px;
+  display:flex;flex-direction:column;gap:3px;
+}
+.pln{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);line-height:1.5;overflow-wrap:anywhere}
+/* lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(15,23,42,.82);display:none;align-items:center;justify-content:center;z-index:1000;padding:32px;cursor:zoom-out}
+.lightbox.open{display:flex}
+.lightbox img{max-width:92vw;max-height:92vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.carousel-nav{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+.cbtn{
+  width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-2);
+  transition:all .15s ease;
+}
+.cbtn:hover{border-color:#cbd5e1;background:var(--bg-soft)}
+.cbtn svg{width:18px;height:18px}
+
+/* ---------- qualitative ---------- */
+.qual-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+@media(max-width:880px){.qual-grid{grid-template-columns:1fr}}
+.qual{border:1px solid var(--line);border-radius:var(--radius);background:#fff;overflow:hidden;box-shadow:var(--shadow)}
+.qual .media{border:none;border-radius:0;border-bottom:1px solid var(--line-soft);min-height:160px}
+.qual .body{padding:18px}
+.qual h3{font-size:16px;margin-bottom:4px}
+.qual .task{font-size:13px;color:var(--muted);margin-bottom:14px}
+.qual .row{display:flex;gap:8px;margin-bottom:10px;font-size:13.5px;line-height:1.5}
+.qual .row:last-child{margin-bottom:0}
+.tag{
+  flex:0 0 auto;height:fit-content;font-size:11px;font-weight:600;letter-spacing:.03em;
+  padding:2px 9px;border-radius:999px;text-transform:uppercase;
+}
+.tag.ok{background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line)}
+.tag.bad{background:var(--bad-bg);color:var(--bad);border:1px solid var(--bad-line)}
+.qual .row span:last-child{color:var(--ink-2)}
+
+/* ---------- ablation cards ---------- */
+.abl .nums{list-style:none;padding:0;margin:14px 0 0}
+.abl .nums li{
+  display:flex;justify-content:space-between;gap:12px;font-size:13.5px;
+  padding:8px 0;border-bottom:1px solid var(--line-soft);color:var(--muted);
+}
+.abl .nums li:last-child{border-bottom:none}
+.abl .nums li b{color:var(--ink);font-weight:600;font-family:'JetBrains Mono',monospace}
+
+/* ---------- qualitative comparisons ---------- */
+#comparisons .carousel{margin-top:24px}
+.cmp-card{flex:0 0 100%;min-width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow);padding:20px 22px}
+.cmp-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:14px}
+.cmp-count{font-size:13px;color:var(--muted);min-width:48px;text-align:center;font-variant-numeric:tabular-nums}
+.cmp-task{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+.cmp-desc{font-size:14px;color:var(--muted);line-height:1.5;margin:0 0 16px}
+.cmp-desc .apv{font-weight:700}
+.cmp-task .lbl{flex:0 0 auto;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cmp-task .txt{font-size:15.5px;font-weight:600;color:var(--ink)}
+/* body: initial column + stacked method rows */
+.cmp-body{display:flex;gap:18px;align-items:flex-start}
+.cmp-initial{flex:0 0 auto;display:flex;flex-direction:column;gap:12px;align-items:center;padding-right:18px;border-right:1px solid var(--line-soft)}
+.cmp-init-ttl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);align-self:flex-start}
+.cmp-init{margin:0;display:flex;flex-direction:column;gap:5px;align-items:center}
+.cmp-init img{width:152px;height:104px;object-fit:cover;border-radius:8px;border:1px solid var(--line-soft);display:block}
+.cmp-init figcaption{font-size:11px;color:var(--muted)}
+.cmp-methods{flex:1;min-width:0;display:flex;flex-direction:column;gap:18px}
+.cmp-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.cmp-pill{font-size:12px;font-weight:600;border-radius:999px;padding:2px 11px}
+.cmp-pill.ours{color:var(--accent-ink);background:var(--accent-100)}
+.cmp-pill.base{color:var(--ink-2);background:#eef1f5}
+.cmp-badge{font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.cmp-badge svg{width:14px;height:14px}
+.cmp-badge.ok{color:var(--ok)}
+.cmp-badge.bad{color:var(--bad)}
+.cmp-film{display:flex;gap:4px;align-items:flex-start;overflow-x:auto;padding-bottom:4px}
+.cmp-frame{flex:0 0 auto;text-align:center}
+.cmp-frame img{height:96px;width:auto;border-radius:6px;border:1px solid var(--line-soft);display:block}
+.cmp-frame.final-ok img{border:2px solid var(--ok)}
+.cmp-frame.final-bad img{border:2px solid var(--bad)}
+.cmp-frame .cap{font-size:11.5px;color:var(--ink-2);margin-top:6px;max-width:130px;line-height:1.35}
+.cmp-frame .cap.bad{color:var(--bad)}
+.cmp-arrow{flex:0 0 auto;align-self:flex-start;margin-top:36px;color:var(--muted);opacity:.6}
+.cmp-arrow svg{width:16px;height:16px}
+@media(max-width:760px){
+  .cmp-body{flex-direction:column}
+  .cmp-initial{flex-direction:row;border-right:none;border-bottom:1px solid var(--line-soft);padding-right:0;padding-bottom:14px;align-items:center}
+}
+
+/* ---------- bibtex ---------- */
+.bibtex-box{position:relative;margin-top:20px}
+.bibtex-box pre{
+  background:#0f172a;color:#e2e8f0;border-radius:var(--radius);
+  padding:22px;overflow-x:auto;font-family:'JetBrains Mono',monospace;
+  font-size:13px;line-height:1.7;margin:0;
+}
+.copy-btn{
+  position:absolute;top:12px;right:12px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e2e8f0;
+  font-size:12.5px;font-weight:500;padding:6px 12px;border-radius:7px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;transition:all .15s ease;
+}
+.copy-btn:hover{background:rgba(255,255,255,.18)}
+.copy-btn svg{width:14px;height:14px}
+
+/* ---------- color accents ---------- */
+.nav-brand{color:var(--accent)}
+
+/* accent bar under section titles */
+section > .wrap > h2::after,
+section > .wrap.center > h2::after{
+  content:"";display:block;width:54px;height:3px;border-radius:3px;
+  background:var(--accent);margin-top:14px;
+}
+h2.h2c{text-align:center}
+h2.h2c::after{margin-left:auto;margin-right:auto}
+
+/* tinted section band */
+section.tint{background:#f5f6fd;border-top-color:#e8eafb}
+
+/* training stages: increasing indigo */
+.stage{transition:transform .15s ease}
+.stage:nth-of-type(1){background:#f4f5fe;border-color:#e4e7fb}
+.stage:nth-of-type(2){background:#eaecfd;border-color:#d6dbfa}
+.stage:nth-of-type(3){background:#dfe3fc;border-color:#c7cef8}
+.stage .num{color:var(--accent-700)}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line-soft);padding:32px 0 48px;text-align:center;background:var(--bg-soft)}
+footer p{font-size:13px;color:var(--muted);margin:0}
+footer .fbrand{color:var(--accent);font-weight:600;letter-spacing:.03em}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand" style="text-decoration:none"><span class="apv">APIVOT</span></a>
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#Method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#comparisons">Examples</a>
+      <a href="#bibtex">BibTeX</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero wrap" id="hero">
+  <h1><span class="apv">APIVOT</span>: Adaptive Planning with Interleaved Vision-Language Thoughts</h1>
+
+  <p class="authors">
+    <a href="https://emilyzjin.github.io/">Emily Jin</a><sup>1</sup>,
+    <a href="https://stanford.edu/~joycj/">Joy Hsu</a><sup>1</sup>,
+    <a href="https://eeching.github.io/">Yiqing Xu</a><sup>2</sup>,
+    <a href="https://www.weiyuliu.com/">Weiyu Liu</a><sup>1</sup>,
+    <a href="https://www.autonomousagents.stanford.edu/people">Nick Haber</a><sup>1&dagger;</sup>,
+    <a href="https://jiajunwu.com/">Jiajun Wu</a><sup>1&dagger;</sup>
+  </p>
+  <p class="affil"><sup>1</sup>Stanford University&ensp;&middot;&ensp;<sup>2</sup>National University of Singapore&ensp;&middot;&ensp;<sup>&dagger;</sup>Equal advising</p>
+
+  <div class="btn-row">
+    <a class="btn btn-primary" href="apivot_assets/apivot.pdf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+      Paper
+    </a>
+    <a class="btn btn-primary" href="#arxiv">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      arXiv
+    </a>
+    <a class="btn btn-primary" href="https://github.com/emilyzjin/adaptive_planning">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Code
+    </a>
+    <a class="btn btn-primary" href="#bibtex">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/></svg>
+      BibTeX
+    </a>
+  </div>
+</header>
+
+<!-- ============ TEASER ============ -->
+<section id="teaser">
+  <div class="wrap">
+    <div class="figure">
+      <video src="apivot_assets/apivot_video_full.mp4" autoplay muted loop playsinline controls preload="metadata" aria-label="APIVOT overview: APIVOT interleaves language and visual thoughts to produce a feasible plan, while a standard VLM produces a colliding plan."></video>
+    </div>
+    <p class="caption center"><span class="apv">APIVOT</span> is a VLM-based planner that combines complementary modes of reasoning: language for semantic structure, vision for geometric feasibility. By adaptively interleaving language reasoning with imagined visual future states, <span class="apv">APIVOT</span> explicitly reasons about geometric constraints and produces more feasible long-horizon plans.</p>
+  </div>
+</section>
+
+<!-- ============ ABSTRACT ============ -->
+<section id="abstract" class="tint">
+  <div class="wrap center">
+    <h2 class="h2c">Abstract</h2>
+    <p class="abstract-body" style="margin-top:18px;text-align:justify">
+      Long-horizon robot planning requires jointly reasoning over semantic task structure and geometric feasibility. To successfully execute a task, a robot must decompose goals, select task-relevant objects, and sequence actions, while ensuring that plans satisfy spatial constraints such as limited free space and object collisions. In this work, we propose <span class="apv">APIVOT</span>, a VLM-based planner that adaptively interleaves language and visual thoughts for long-horizon planning. <span class="apv">APIVOT</span> learns to rely on language for semantic reasoning, while using visual thoughts as imagined future states for internal verification of geometric feasibility. On long-horizon kitchen tasks, <span class="apv">APIVOT</span> outperforms general-purpose VLMs and prior planning frameworks, achieving the largest gains in spatially constrained settings. We find that <span class="apv">APIVOT</span> learns meaningful modality selection behavior, demonstrating that adaptive interleaving of vision-language thoughts improves both planning success and reasoning efficiency.
+    </p>
+  </div>
+</section>
+
+<!-- ============ METHOD OVERVIEW ============ -->
+<section id="Overview">
+  <div class="wrap">
+    <h2 class="h2c">Overview</h2>
+    <div class="method-text" style="margin-top:18px">
+      <p>Consider a long-horizon task: <em>&ldquo;Store the leftovers in the fridge.&rdquo;</em> To succeed, a robot must reason semantically about what to store, which containers to use, and which actions must happen first. It must also reason geometrically about how those containers fit inside the fridge and whether there is enough free space. These decisions are tightly coupled: a semantically valid plan can still fail if it ignores spatial constraints.</p>
+      <div class="callout"><strong>Key insight:</strong> long-horizon planning requires joint reasoning about <strong>semantic structure</strong> and <strong>geometric feasibility</strong>.</div>
+      <p style="margin-top:24px;margin-bottom:0">We propose <span class="apv">APIVOT</span>, a VLM-based planner that interleaves <strong>language reasoning</strong> with <strong>visual thoughts</strong>: <em>imagined future scene states</em> that help the model reason about spatial constraints. <span class="apv">APIVOT</span> uses language where symbolic and semantic reasoning are sufficient, and invokes visual thoughts when geometric precision is needed. By <strong>adaptively pivoting</strong> between these modalities, our model produces more feasible plans for long-horizon tasks.</p>
+    </div>
+    <!--
+    <div class="modality-cards">
+      <div class="mcard mcard-lang">
+        <div class="mcard-head">
+          <span class="mcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+          <h3>Language for Semantic Reasoning</h3>
+        </div>
+          <p>Language handles semantic planning: choosing subgoals, identifying objects, tracking preconditions, sequencing actions.</p>
+      </div>
+      <div class="mcard mcard-vis">
+        <div class="mcard-head">
+          <span class="mcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <h3>Vision for Geometric Feasibility</h3>
+        </div>
+          <p>For spatially constrained subgoals, <span class="apv">APIVOT</span> imagines the resulting scene to guide later decisions and avoid infeasible actions.</p>
+      </div>
+    </div>
+    -->
+  </div>
+  </section>
+
+  <!-- ============ METHOD OVERVIEW ============ -->
+  <section id="Method">
+  <div class="wrap">
+    <h2 class="h2c">Method</h2>
+      <p class="lead">
+      Given a task instruction, scene observation, and detected objects, <span class="apv">APIVOT</span> generates an interleaved reasoning trace of vision-language thoughts, followed by an executable plan. Language is used to decompose goals, track prerequisites, and choose actions, while visual thoughts are used when the subgoal depends on geometry, free space, or potential collisions.
+      </p>
+      <div class="method-figure">
+        <img src="apivot_assets/method_overview.png" alt="APIVOT interleaves language thoughts (text steps) and visual thoughts (imagined future scenes) into a single reasoning trace, then outputs an executable action plan.">
+      </div>
+
+    <div id="training" class="subsection">
+      <h3 class="subhead">Training Curriculum</h3>
+      <p class="lead"><span class="apv">APIVOT</span> is trained with <strong>supervised fine-tuning</strong> on reference traces that demonstrate interleaved reasoning and successful planning. <button class="ex-toggle" id="ex-toggle" aria-expanded="false" aria-controls="examples-block">(See examples.)<svg class="ex-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button></p>
+
+      <div class="carousel" id="examples-block" hidden>
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="carousel-track"><!-- slides injected by JS --></div>
+        </div>
+        <div class="carousel-nav">
+          <button class="cbtn" id="prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="cbtn" id="next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+      </div>
+
+      <p class="lead" style="margin-top:32px">We train <span class="apv">APIVOT</span> with a three-stage curriculum that progressively teaches it to <strong>use</strong> visual thoughts, <strong>generate</strong> them, and <strong>adaptively select</strong> when they are needed. Across all stages, training uses a standard cross-entropy loss over reasoning traces and plans, along with an image-alignment loss that aligns generated visual thoughts with encoded future scene observations.</p>
+      <div class="card-grid cards-3">
+        <div class="card stage">
+          <div class="num">STAGE 1</div>
+          <h3>Use Visual Thoughts</h3>
+          <p>The model is given ground-truth visual thoughts and learns to use them for downstream planning.</p>
+        </div>
+        <div class="card stage">
+          <div class="num">STAGE 2</div>
+          <h3>Generate Visual Thoughts</h3>
+          <p>The model autoregressively generates its own visual thoughts, representing imagined subgoals.</p>
+        </div>
+        <div class="card stage">
+          <div class="num">STAGE 3</div>
+          <h3>Adaptively Use Vision</h3>
+          <p>The model learns to use visual thoughts selectively for geometry-sensitive subgoals.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KEY RESULTS ============ -->
+<section id="results">
+  <div class="wrap">
+    <h2 class="h2c">Results</h2>
+    <p class="lead">We evaluate <span class="apv">APIVOT</span> on three long-horizon KitchenWorlds tasks: Containment <span class="idtag">(ID)</span>, Sorting <span class="idtag">(ID)</span>, and Storing Leftovers <span class="idtag">(OOD)</span>. <span class="apv">APIVOT</span> improves planning success over general-purpose VLMs, VLM-based planners (<strong>+8.1 points</strong>), and symbolic planning baselines (<strong>+9.0 points</strong>).</p>
+    <p class="lead" style="margin-top:18px">These gains are consistent across all three task families, including the held-out Storing Leftovers task. This suggests that interleaved language and visual reasoning supports generalization to new task compositions beyond the training distribution.</p>
+
+    <!-- Task description cards (commented out)
+    <div class="task-cards">
+      <div class="task-card">
+        <img class="task-img" src="apivot_assets/task_containment.png" alt="Containment task: bowls on a surface to be placed inside the fridge.">
+        <div class="tc-body">
+          <h3>Containment</h3>
+          <p class="tc-test"><strong>Task:</strong> Place the bowls inside the fridge.</p>
+          <p class="tc-test"><strong>Challenge:</strong> fitting objects into a constrained container, creating free space, and avoiding collisions.</p>
+        </div>
+      </div>
+      <div class="task-card">
+        <img class="task-img" src="apivot_assets/task_sorting.png" alt="Sorting task: food items to be sorted by type into braisers.">
+        <div class="tc-body">
+          <h3>Sorting</h3>
+          <p class="tc-test"><strong>Task:</strong> Sort food by type into braisers.</p>
+          <p class="tc-test"><strong>Challenge:</strong> joint reasoning about semantic assignment and geometric capacity.</p>
+        </div>
+      </div>
+      <div class="task-card">
+        <img class="task-img" src="apivot_assets/task_storing.png" alt="Storing Leftovers task: food sorted into containers and placed in the fridge.">
+        <div class="tc-body">
+          <h3>Storing Leftovers</h3>
+          <p class="tc-test"><strong>Task:</strong> Sort food by type into braisers, then place them in the fridge.</p>
+          <p class="tc-test"><strong>Challenge:</strong> a held-out task, composing sorting and containment.</p>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <!-- overall -->
+    <div style="margin-top:32px">
+      <h3 class="subhead" style="text-align:center">Overall Planning Performance</h3>
+      <div class="rtable-wrap">
+        <table class="rtable">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th class="avg-col">Average</th>
+              <th>Containment <span class="idtag">(ID)</span></th>
+              <th>Sorting <span class="idtag">(ID)</span></th>
+              <th>Storing Leftovers <span class="idtag">(OOD)</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="group"><td colspan="5">VLM Baselines</td></tr>
+            <tr><td>Gemini-3.1-Pro</td><td>0.245</td><td>0.281</td><td>0.241</td><td>0.213</td></tr>
+            <tr><td>Gemini-ER-1.5</td><td>0.338</td><td>0.364</td><td>0.339</td><td>0.311</td></tr>
+            <tr><td>Qwen3-VL-8B-Instruct</td><td>0.188</td><td>0.218</td><td>0.183</td><td>0.162</td></tr>
+            <tr><td>Qwen3-VL-8B-Thinking</td><td>0.232</td><td>0.259</td><td>0.234</td><td>0.204</td></tr>
+            <tr class="group"><td colspan="5">Planning Baselines</td></tr>
+            <tr><td>FastDownward</td><td>0.272</td><td>0.331</td><td>0.247</td><td>0.238</td></tr>
+            <tr><td>Reflect-VLM</td><td>0.292</td><td>0.348</td><td>0.272</td><td>0.257</td></tr>
+            <tr><td>VLM-TAMP</td><td>0.329</td><td>0.370</td><td>0.311</td><td>0.307</td></tr>
+            <tr class="apivot"><td><span class="apv">APIVOT</span> (Ours)</td><td>0.419</td><td>0.472</td><td>0.421</td><td>0.365</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">Task success rate (fraction of episodes that succeed) across task families. Containment and Sorting are in-distribution (ID); Storing Leftovers is a held-out, out-of-distribution (OOD) task.</p>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subhead" style="text-align:center">Additional Results</h3>
+      <div class="ar-tabs" id="ar-tabs">
+        <button class="ar-tab" data-i="0">Robust Under Geometric Complexity<svg class="ar-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="ar-tab" data-i="1">Visual Thoughts Are Token-Efficient<svg class="ar-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="ar-tab" data-i="2">Reasoning Modes at Inference-Time<svg class="ar-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+      </div>
+
+      <div class="ar-panel" data-i="0">
+        <div class="figure"><img src="apivot_assets/goal_area_performance.png" alt="Grouped bar chart of success rate by goal-area occupancy for five methods; APIVOT leads at every level, with the largest margin under the most geometric constraints."></div>
+        <ul class="keypoints">
+          <li>We analyze performance as scenes become more geometrically constrained. We define an occupancy ratio that measures how crowded the available space is.</li>
+          <li>In low-occupancy (under-constrained) settings, all methods achieve high success.</li>
+          <li>As occupancy increases, baseline performance drops sharply, while <span class="apv">APIVOT</span> remains more robust. Its advantage over baselines grows from 0.07 to 0.17.</li>
+        </ul>
+      </div>
+      <div class="ar-panel" data-i="1">
+        <div class="figure"><img src="apivot_assets/token_budget.png" alt="Line chart of success rate versus reasoning-token budget; APIVOT dominates all baselines across every token budget from 128 to 8192."></div>
+        <ul class="keypoints">
+          <li>Across matched reasoning-token budgets, <span class="apv">APIVOT</span> consistently outperforms language-only VLM baselines.</li>
+          <li>Visual thoughts make planning more token-efficient.</li>
+          <li>Instead of using long text traces to describe spatial layouts, <span class="apv">APIVOT</span> represents geometry directly through imagined future states, enabling stronger planning with fewer tokens.</li>
+        </ul>
+      </div>
+      <div class="ar-panel" data-i="2">
+        <div class="figure"><img src="apivot_assets/efficiency_tradeoff.png" alt="Success rate versus token usage; Adaptive APIVOT sits near Always-Image performance while using far fewer tokens, and well above No-Image and all baselines."></div>
+        <ul class="keypoints">
+          <li>At inference time, <span class="apv">APIVOT</span> can operate in three modes: <strong>Always-Image</strong>, <strong>Adaptive</strong>, and <strong>No-Image</strong>.</li>
+          <li>Always-Image achieves the highest task success by using visual thoughts at every planning step, but incurs substantially higher token usage.</li>
+          <li>Adaptive reasoning offers a stronger efficiency trade-off: it retains <strong>93%</strong> of Always-Image performance while using <strong>39% fewer tokens</strong>, showing that <span class="apv">APIVOT</span> can effectively use visual thoughts selectively.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUALITATIVE COMPARISONS ============ -->
+<section id="comparisons">
+  <div class="wrap">
+    <h2 class="h2c">Examples</h2>
+    <p class="lead center"><span class="apv">APIVOT</span> successfully anticipates geometric constraints, producing feasible plans where baselines struggle.</p>
+    <div class="carousel">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="cmp-list"><!-- injected by JS --></div>
+      </div>
+      <div class="cmp-nav">
+        <button class="cbtn" id="cmp-prev" aria-label="Previous example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button class="cbtn" id="cmp-next" aria-label="Next example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BIBTEX ============ -->
+<section id="bibtex">
+  <div class="wrap">
+    <h2 class="h2c">BibTeX</h2>
+    <div class="bibtex-box">
+      <button class="copy-btn" id="copy-bib">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span>Copy</span>
+      </button>
+<pre id="bib-text">@article{apivot2026,
+  title   = {APIVOT: Adaptive Planning with Interleaved Vision-Language Thoughts},
+  author  = {Jin, Emily and Hsu, Joy and Xu, Yiqing and Liu, Weiyu and Haber, Nick and Wu, Jiajun},
+  year    = {2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 Emily Jin &middot; <span class="fbrand"><span class="apv">APIVOT</span></span></p>
+  </div>
+</footer>
+
+<script>
+/* ---------- Examples toggle (click to show/hide) ---------- */
+(function(){
+  const btn=document.getElementById('ex-toggle');
+  const block=document.getElementById('examples-block');
+  if(!btn||!block) return;
+  btn.addEventListener('click',()=>{
+    const open=block.hasAttribute('hidden');
+    if(open){ block.removeAttribute('hidden'); btn.setAttribute('aria-expanded','true'); btn.childNodes[0].nodeValue='(Hide examples.)'; }
+    else{ block.setAttribute('hidden',''); btn.setAttribute('aria-expanded','false'); btn.childNodes[0].nodeValue='(See examples.)'; }
+  });
+})();
+
+/* ---------- Task examples carousel (data: apivot_assets/examples/examples.json) ---------- */
+(function(){
+  const track = document.getElementById('carousel-track');
+  if(!track) return;
+  const ASSET = 'apivot_assets/';
+  const ORDER = ['containment','sorting','storing'];
+  const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  const EYE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+  const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+
+  function imgCell(src,label,cls){
+    if(!src) return '';
+    return `<figure class="media-img ${cls||''}"><img loading="lazy" src="${ASSET}${src}" alt="${esc(label)}"><figcaption>${esc(label)}</figcaption></figure>`;
+  }
+  function traceHTML(trace){
+    return (trace||[]).map(st=>`
+      <div class="tstep${st.visual?' vis':''}">
+        <div class="tstep-h">${esc(st.label)}${st.visual?`<span class="vt-chip">${EYE}imagined visual thought</span>`:''}</div>
+        <p>${esc(st.text)}</p>
+      </div>`).join('');
+  }
+  function subgoalHTML(subs){
+    if(!subs||!subs.length) return '';
+    return `<div class="subgoals">${subs.map((s,i)=>`<img loading="lazy" class="sg" src="${ASSET}${s}" alt="Imagined subgoal state ${i+1}">`).join('')}</div>`;
+  }
+  function planHTML(plan){
+    return `<div class="plan">${(plan||[]).map(p=>`<div class="pln">${esc(p)}</div>`).join('')}</div>`;
+  }
+  function slideHTML(ex){
+    const subgoals = (ex.subgoals&&ex.subgoals.length)
+      ? `<div class="step"><div class="step-label"><span class="n">5</span>Imagined subgoal states</div>${subgoalHTML(ex.subgoals)}</div>` : '';
+    return `<div class="slide"><div class="slide-cols">
+      <div class="col-left">
+        <div class="step"><div class="step-label"><span class="n">1</span>Task instruction</div><div class="instruction">${esc(ex.instruction)}</div></div>
+        <div class="step"><div class="step-label"><span class="n">2</span>Initial Scene</div><div class="img-row">${imgCell(ex.scene_global,'Global view','wide')}${imgCell(ex.scene_zoom,'Zoom-in')}</div></div>
+        <div class="step grow"><div class="step-label"><span class="n">3</span>Plan<span class="success-check">${CHECK}Success</span></div>${planHTML(ex.plan)}</div>
+      </div>
+      <div class="col-right">
+        <div class="step grow"><div class="step-label"><span class="n">4</span>Reasoning trace <span class="lm">(language &middot; <span style="color:var(--accent-700)">visual thought</span>)</span></div><div class="trace2">${traceHTML(ex.trace)}</div></div>
+        ${subgoals}
+      </div>
+    </div></div>`;
+  }
+
+  // lightbox
+  const lb=document.createElement('div'); lb.className='lightbox'; lb.innerHTML='<img alt="Enlarged example image">';
+  document.body.appendChild(lb);
+  const close=()=>lb.classList.remove('open');
+  lb.addEventListener('click',close);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+
+  fetch(ASSET+'examples/examples.json',{cache:'no-store'}).then(r=>r.json()).then(DATA=>{
+    const FLAT=[];
+    ORDER.forEach(task=>(DATA[task]||[]).forEach(ex=>FLAT.push({task,ex})));
+    const n=FLAT.length;
+    const tabs=[...document.querySelectorAll('#task-tabs .tab')];
+    tabs.forEach(t=>{ if(!(DATA[t.dataset.task]||[]).length) t.style.display='none'; });
+    if(!n){ track.innerHTML='<div class="slide"><p style="color:var(--muted)">No examples available.</p></div>'; return; }
+    track.innerHTML=FLAT.map(it=>slideHTML(it.ex)).join('');
+    let idx=0;
+    function render(){
+      track.style.transform=`translateX(-${idx*100}%)`;
+      const task=FLAT[idx].task;
+      tabs.forEach(t=>t.classList.toggle('active',t.dataset.task===task));
+    }
+    function go(i){ idx=(i%n+n)%n; render(); }
+    tabs.forEach(tab=>tab.addEventListener('click',()=>{
+      const first=FLAT.findIndex(it=>it.task===tab.dataset.task);
+      if(first!==-1) go(first);
+    }));
+    document.getElementById('next').addEventListener('click',()=>go(idx+1));
+    document.getElementById('prev').addEventListener('click',()=>go(idx-1));
+    track.addEventListener('click',e=>{
+      const im=e.target.closest('img[data-full]');
+      if(im){ lb.querySelector('img').src=im.dataset.full; lb.classList.add('open'); }
+    });
+    render();
+  }).catch(err=>{
+    console.error('examples load failed',err);
+    track.innerHTML='<div class="slide"><p style="color:var(--muted)">Could not load examples.json.</p></div>';
+  });
+})();
+
+/* ---------- Qualitative comparisons (data: apivot_assets/qualitative/qualitative.json) ---------- */
+(function(){
+  const list=document.getElementById('cmp-list');
+  if(!list) return;
+  const ASSET='apivot_assets/';
+  const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const CHV='<span class="cmp-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>';
+  const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+  const XMARK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+
+  function film(frames,success){
+    if(!frames||!frames.length) return '';
+    const anyBad=frames.some(f=>f.bad);
+    return frames.map((f,i)=>{
+      const last=i===frames.length-1;
+      let cls='';
+      if(f.bad) cls=' final-bad';                                  // explicit mistake frame
+      else if(success && last) cls=' final-ok';                    // ours: success on final frame
+      else if(!success && last && !anyBad) cls=' final-bad';       // baseline fallback: last = failure
+      const cap=f.caption?`<div class="cap${f.bad?' bad':''}">${esc(f.caption)}</div>`:'';
+      return `<div class="cmp-frame${cls}"><img loading="lazy" src="${ASSET}${f.img}" alt="${esc(f.caption||'rendered state')}">${cap}</div>`;
+    }).join(CHV);
+  }
+  function method(m,kind){
+    const badge=m.success?`<span class="cmp-badge ok">${CHECK}Success</span>`
+                         :`<span class="cmp-badge bad">${XMARK}Failure</span>`;
+    return `<div class="cmp-method">
+      <div class="cmp-head"><span class="cmp-pill ${kind==='ours'?'ours':'base'}">${esc(m.name)}</span>${badge}</div>
+      <div class="cmp-film">${film(m.frames,m.success)}</div>
+    </div>`;
+  }
+  function initialsCol(initials){
+    if(!initials||!initials.length) return '';
+    return `<div class="cmp-initial"><div class="cmp-init-ttl">Initial state</div>${initials.map(it=>
+      `<figure class="cmp-init"><img loading="lazy" src="${ASSET}${it.img}" alt="${esc(it.label)}"><figcaption>${esc(it.label)}</figcaption></figure>`
+    ).join('')}</div>`;
+  }
+  function card(s){
+    const apvify=t=>t.replace(/APIVOT/g,'<span class="apv">APIVOT</span>');
+    const desc=s.description?`<p class="cmp-desc">${apvify(esc(s.description))}</p>`:'';
+    return `<div class="cmp-card">
+      <div class="cmp-task"><span class="lbl">Task</span><span class="txt">${esc(s.instruction)}</span></div>
+      ${desc}
+      <div class="cmp-body">
+        ${initialsCol(s.initials)}
+        <div class="cmp-methods">${method(s.ours,'ours')}${method(s.baseline,'baseline')}</div>
+      </div>
+    </div>`;
+  }
+  fetch(ASSET+'qualitative/qualitative.json',{cache:'no-store'}).then(r=>r.json()).then(data=>{
+    const sec=document.getElementById('comparisons');
+    if(!data||!data.length){ if(sec) sec.hidden=true; return; }
+    list.innerHTML=data.map(card).join('');
+    const n=data.length;
+    let idx=0;
+    const prev=document.getElementById('cmp-prev'), next=document.getElementById('cmp-next'), count=document.getElementById('cmp-count');
+    function render(){ list.style.transform=`translateX(-${idx*100}%)`; if(count) count.textContent=`${idx+1} / ${n}`; }
+    function go(i){ idx=(i%n+n)%n; render(); }
+    if(prev) prev.addEventListener('click',()=>go(idx-1));
+    if(next) next.addEventListener('click',()=>go(idx+1));
+    if(n<=1){ const nav=document.querySelector('.cmp-nav'); if(nav) nav.style.display='none'; }
+    render();
+  }).catch(err=>{ console.error('qualitative load failed',err); const sec=document.getElementById('comparisons'); if(sec) sec.hidden=true; });
+})();
+
+/* ---------- Additional results: expand on click ---------- */
+(function(){
+  const tabs=[...document.querySelectorAll('#ar-tabs .ar-tab')];
+  const panels=[...document.querySelectorAll('.ar-panel')];
+  if(!tabs.length) return;
+  tabs.forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      const i=tab.dataset.i;
+      const isOpen=tab.classList.contains('active');
+      tabs.forEach(t=>t.classList.toggle('active', !isOpen && t===tab));
+      panels.forEach(p=>p.classList.toggle('active', !isOpen && p.dataset.i===i));
+    });
+  });
+})();
+
+/* ---------- Scroll-spy nav ---------- */
+(function(){
+  const links=[...document.querySelectorAll('.nav-links a')];
+  const targets=links
+    .map(a=>{ const id=a.getAttribute('href').slice(1); const el=document.getElementById(id); return el?{a,el}:null; })
+    .filter(Boolean);
+  if(!targets.length) return;
+
+  function onScroll(){
+    const line=window.innerHeight*0.3;   // activation line near the top
+    let current=null;
+    for(const t of targets){
+      const top=t.el.getBoundingClientRect().top;
+      if(top<=line) current=t; else break;
+    }
+    links.forEach(a=>a.classList.remove('active'));
+    if(current) current.a.classList.add('active');
+  }
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll, {passive:true});
+})();
+
+/* ---------- BibTeX copy ---------- */
+document.getElementById('copy-bib').addEventListener('click',function(){
+  const txt = document.getElementById('bib-text').innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const span = this.querySelector('span');
+    const old = span.textContent;
+    span.textContent = 'Copied!';
+    setTimeout(()=>span.textContent = old,1600);
+  });
+});
+</script>
+</body>
+</html>

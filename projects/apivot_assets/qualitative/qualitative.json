@@ -1,0 +1,754 @@
+[
+  {
+    "id": "sample_01",
+    "instruction": "Store the bowls inside the minifridge.",
+    "description": "APIVOT first clears the pot to create space for the bowls. Gemini-ER-1.5 recognizes the constraint too late, retries multiple placements, and times out.",
+    "initials": [
+      {
+        "img": "qualitative/sample_01/initial_fridge.png",
+        "label": "fridge"
+      }
+    ],
+    "ours": {
+      "name": "APIVOT (Ours)",
+      "outcome": "feasible plan",
+      "success": true,
+      "frames": [
+        {
+          "img": "qualitative/sample_01/ours/1_Clear pot.png",
+          "caption": "Clear pot",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_01/ours/2_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_01/ours/3_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        }
+      ],
+      "plan": []
+    },
+    "baseline": {
+      "name": "Gemini-ER-1.5",
+      "outcome": "collision",
+      "success": false,
+      "frames": [
+        {
+          "img": "qualitative/sample_01/baseline/1!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_01/baseline/2_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_01/baseline/3!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_01/baseline/4!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_01/baseline/5!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_01/baseline/6_Remove bowl.png",
+          "caption": "Remove bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_01/baseline/7_Clear pot.png",
+          "caption": "Clear pot",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_01/baseline/8_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_01/baseline/9!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_01/baseline/10!_Final state (timeout).png",
+          "caption": "Final state (timeout)",
+          "bad": true
+        }
+      ],
+      "plan": []
+    }
+  },
+  {
+    "id": "sample_02",
+    "instruction": "Store the bowls inside the minifridge.",
+    "description": "APIVOT places bowls precisely while preserving space for future placements. VLM-TAMP fails to reserve enough room, making the final placement infeasible.",
+    "initials": [
+      {
+        "img": "qualitative/sample_02/initial_fridge.png",
+        "label": "fridge"
+      }
+    ],
+    "ours": {
+      "name": "APIVOT (Ours)",
+      "outcome": "feasible plan",
+      "success": true,
+      "frames": [
+        {
+          "img": "qualitative/sample_02/ours/1_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_02/ours/2_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_02/ours/3_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_02/ours/4_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_02/ours/5_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        }
+      ],
+      "plan": []
+    },
+    "baseline": {
+      "name": "VLM-TAMP",
+      "outcome": "out of space",
+      "success": false,
+      "frames": [
+        {
+          "img": "qualitative/sample_02/baseline/1_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_02/baseline/2_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_02/baseline/3_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_02/baseline/4!_Protrudes.png",
+          "caption": "Protrudes",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_02/baseline/5!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_02/baseline/6_Place bowl.png",
+          "caption": "Place bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_02/baseline/7!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_02/baseline/8!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_02/baseline/9!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_02/baseline/10_Move bowl aside.png",
+          "caption": "Move bowl aside",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_02/baseline/11!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_02/baseline/12!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_02/baseline/13!_Final state (timeout).png",
+          "caption": "Final state (timeout)",
+          "bad": true
+        }
+      ],
+      "plan": []
+    }
+  },
+  {
+    "id": "sample_03",
+    "instruction": "Sort the cabbage and potato by type in the braisers.",
+    "description": "Both methods choose the correct braiser assignment, but APIVOT\u2019s more precise placement succeeds while Gemini-ER-1.5 fails.",
+    "initials": [
+      {
+        "img": "qualitative/sample_03/initial_braiser.png",
+        "label": "braiser"
+      }
+    ],
+    "ours": {
+      "name": "APIVOT (Ours)",
+      "outcome": "feasible plan",
+      "success": true,
+      "frames": [
+        {
+          "img": "qualitative/sample_03/ours/1_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_03/ours/2_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_03/ours/3_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_03/ours/4_Place potato.png",
+          "caption": "Place potato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_03/ours/5_Place potato.png",
+          "caption": "Place potato",
+          "bad": false
+        }
+      ],
+      "plan": []
+    },
+    "baseline": {
+      "name": "Gemini-ER-1.5",
+      "outcome": "collision",
+      "success": false,
+      "frames": [
+        {
+          "img": "qualitative/sample_03/baseline/1_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_03/baseline/2_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_03/baseline/3_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_03/baseline/4_Place potato.png",
+          "caption": "Place potato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_03/baseline/5!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_03/baseline/6!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_03/baseline/7_Shift potato.png",
+          "caption": "Shift potato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_03/baseline/8!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_03/baseline/9!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_03/baseline/10!_Final state (timeout).png",
+          "caption": "Final state (timeout)",
+          "bad": true
+        }
+      ],
+      "plan": []
+    }
+  },
+  {
+    "id": "sample_04",
+    "instruction": "Sort the zucchini and cabbage by type in the braisers.",
+    "description": "Both methods initially choose the correct braiser assignment. APIVOT succeeds through precise placement, while Gemini-ER-1.5 fails and then switches to an infeasible assignment.",
+    "initials": [
+      {
+        "img": "qualitative/sample_04/initial_braiser.png",
+        "label": "braiser"
+      }
+    ],
+    "ours": {
+      "name": "APIVOT (Ours)",
+      "outcome": "feasible plan",
+      "success": true,
+      "frames": [
+        {
+          "img": "qualitative/sample_04/ours/1_Place zucchini.png",
+          "caption": "Place zucchini",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_04/ours/2_Place zucchini.png",
+          "caption": "Place zucchini",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_04/ours/3_Place zucchini.png",
+          "caption": "Place zucchini",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_04/ours/4_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        }
+      ],
+      "plan": []
+    },
+    "baseline": {
+      "name": "Gemini-ER-1.5",
+      "outcome": "protrusion",
+      "success": false,
+      "frames": [
+        {
+          "img": "qualitative/sample_04/baseline/1_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_04/baseline/2_Place zucchini.png",
+          "caption": "Place zucchini",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_04/baseline/3_Place zucchini.png",
+          "caption": "Place zucchini",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_04/baseline/4!_Protrudes.png",
+          "caption": "Protrudes",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_04/baseline/5!_Protrudes.png",
+          "caption": "Protrudes",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_04/baseline/6!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_04/baseline/7_Remove cabbage.png",
+          "caption": "Remove cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_04/baseline/8_Place zucchini.png",
+          "caption": "Place zucchini",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_04/baseline/9!_Protrudes.png",
+          "caption": "Protrudes",
+          "bad": true
+        }
+      ],
+      "plan": []
+    }
+  },
+  {
+    "id": "sample_05",
+    "instruction": "Sort the cabbage and potato by type in the braisers.",
+    "description": "Although the potato is larger, there are more cabbages. APIVOT assigns cabbages to the larger braiser to allow more placement flexibility, while VLM-TAMP chooses the opposite assignment and fails.",
+    "initials": [
+      {
+        "img": "qualitative/sample_05/initial_braiser.png",
+        "label": "braiser"
+      }
+    ],
+    "ours": {
+      "name": "APIVOT (Ours)",
+      "outcome": "feasible plan",
+      "success": true,
+      "frames": [
+        {
+          "img": "qualitative/sample_05/ours/1_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_05/ours/2_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_05/ours/3_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_05/ours/4_Place potato.png",
+          "caption": "Place potato",
+          "bad": false
+        }
+      ],
+      "plan": []
+    },
+    "baseline": {
+      "name": "VLM-TAMP",
+      "outcome": "collision",
+      "success": false,
+      "frames": [
+        {
+          "img": "qualitative/sample_05/baseline/1_Place potato.png",
+          "caption": "Place potato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_05/baseline/2_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_05/baseline/3_Place cabbage.png",
+          "caption": "Place cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_05/baseline/4!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_05/baseline/5!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_05/baseline/6_Shift cabbage.png",
+          "caption": "Shift cabbage",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_05/baseline/7!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_05/baseline/8!_Final state (timeout).png",
+          "caption": "Final state (timeout)",
+          "bad": true
+        }
+      ],
+      "plan": []
+    }
+  },
+  {
+    "id": "sample_06",
+    "instruction": "Sort the potato and tomato by type in the braisers, and then store the braisers in the fridge.",
+    "description": "APIVOT sorts the objects and fits the two large braisers precisely in the fridge. Gemini-ER-1.5 sorts correctly but cannot fit both braisers inside.",
+    "initials": [
+      {
+        "img": "qualitative/sample_06/initial_fridge.png",
+        "label": "fridge"
+      },
+      {
+        "img": "qualitative/sample_06/initial_braiser.png",
+        "label": "braiser"
+      }
+    ],
+    "ours": {
+      "name": "APIVOT (Ours)",
+      "outcome": "feasible plan",
+      "success": true,
+      "frames": [
+        {
+          "img": "qualitative/sample_06/ours/1_Place potato.png",
+          "caption": "Place potato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/ours/2_Place potato.png",
+          "caption": "Place potato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/ours/3_Place potato.png",
+          "caption": "Place potato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/ours/4_Place tomato.png",
+          "caption": "Place tomato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/ours/5_Place tomato.png",
+          "caption": "Place tomato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/ours/6_Place tomato.png",
+          "caption": "Place tomato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/ours/7_Store braiser.png",
+          "caption": "Store braiser",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/ours/8_Store braiser.png",
+          "caption": "Store braiser",
+          "bad": false
+        }
+      ],
+      "plan": []
+    },
+    "baseline": {
+      "name": "Gemini-ER-1.5",
+      "outcome": "collision",
+      "success": false,
+      "frames": [
+        {
+          "img": "qualitative/sample_06/baseline/1_Place tomato.png",
+          "caption": "Place tomato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/baseline/2_Place tomato.png",
+          "caption": "Place tomato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/baseline/3!_Protrudes.png",
+          "caption": "Protrudes",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_06/baseline/4_Place tomato.png",
+          "caption": "Place tomato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/baseline/5_Place potato.png",
+          "caption": "Place potato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/baseline/6_Place potato.png",
+          "caption": "Place potato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/baseline/7_Place potato.png",
+          "caption": "Place potato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/baseline/8_Store braiser.png",
+          "caption": "Store braiser",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_06/baseline/9!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_06/baseline/10!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_06/baseline/11!_Protrudes.png",
+          "caption": "Protrudes",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_06/baseline/12!_Final State (model thinks its done).png",
+          "caption": "Final State (model thinks its done)",
+          "bad": true
+        }
+      ],
+      "plan": []
+    }
+  },
+  {
+    "id": "sample_07",
+    "instruction": "Sort the tomato and artichoke by type in the braisers, and then store the braisers in the fridge.",
+    "description": "APIVOT sorts the food, removes obstacles, and places the braisers in a constrained fridge. VLM-TAMP\u2019s imprecise placements lead to repeated retries and eventual timeout.",
+    "initials": [
+      {
+        "img": "qualitative/sample_07/initial_fridge.png",
+        "label": "fridge"
+      },
+      {
+        "img": "qualitative/sample_07/initial_braiser.png",
+        "label": "braiser"
+      }
+    ],
+    "ours": {
+      "name": "APIVOT (Ours)",
+      "outcome": "feasible plan",
+      "success": true,
+      "frames": [
+        {
+          "img": "qualitative/sample_07/ours/1_Place tomato.png",
+          "caption": "Place tomato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/ours/2_Place tomato.png",
+          "caption": "Place tomato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/ours/3_Place tomato.png",
+          "caption": "Place tomato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/ours/4_Place artichoke.png",
+          "caption": "Place artichoke",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/ours/5_Place artichoke.png",
+          "caption": "Place artichoke",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/ours/6_Place artichoke.png",
+          "caption": "Place artichoke",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/ours/7_Remove blocking bowl.png",
+          "caption": "Remove blocking bowl",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/ours/8_Store braiser.png",
+          "caption": "Store braiser",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/ours/9_Store braiser.png",
+          "caption": "Store braiser",
+          "bad": false
+        }
+      ],
+      "plan": []
+    },
+    "baseline": {
+      "name": "VLM-TAMP",
+      "outcome": "out of space",
+      "success": false,
+      "frames": [
+        {
+          "img": "qualitative/sample_07/baseline/1_Place artichoke.png",
+          "caption": "Place artichoke",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/baseline/2_Place artichoke.png",
+          "caption": "Place artichoke",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/baseline/3_Place artichoke.png",
+          "caption": "Place artichoke",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/baseline/4!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_07/baseline/5_Stores braiser.png",
+          "caption": "Stores braiser",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/baseline/6_Place tomato.png",
+          "caption": "Place tomato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/baseline/7_Place tomato.png",
+          "caption": "Place tomato",
+          "bad": false
+        },
+        {
+          "img": "qualitative/sample_07/baseline/8!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_07/baseline/9!_Collision.png",
+          "caption": "Collision",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_07/baseline/10!_Protrudes.png",
+          "caption": "Protrudes",
+          "bad": true
+        },
+        {
+          "img": "qualitative/sample_07/baseline/11!_Final state (timeout).png",
+          "caption": "Final state (timeout)",
+          "bad": true
+        }
+      ],
+      "plan": []
+    }
+  }
+]
