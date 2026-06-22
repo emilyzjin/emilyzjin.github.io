@@ -218,13 +218,13 @@
           "bad": false
         },
         {
-          "img": "qualitative/sample_07/baseline/4!_Collision.png",
-          "caption": "Collision",
-          "bad": true
+          "img": "qualitative/sample_07/baseline/4_Store braiser.png",
+          "caption": "Store braiser",
+          "bad": false
         },
         {
-          "img": "qualitative/sample_07/baseline/5_Stores braiser.png",
-          "caption": "Stores braiser",
+          "img": "qualitative/sample_07/baseline/5_Place tomato.png",
+          "caption": "Place tomato",
           "bad": false
         },
         {
@@ -238,22 +238,12 @@
           "bad": false
         },
         {
-          "img": "qualitative/sample_07/baseline/8!_Collision.png",
-          "caption": "Collision",
+          "img": "qualitative/sample_07/baseline/8!_Place braiser (TAMP failure).png",
+          "caption": "Place braiser (TAMP failure)",
           "bad": true
         },
         {
-          "img": "qualitative/sample_07/baseline/9!_Collision.png",
-          "caption": "Collision",
-          "bad": true
-        },
-        {
-          "img": "qualitative/sample_07/baseline/10!_Protrudes.png",
-          "caption": "Protrudes",
-          "bad": true
-        },
-        {
-          "img": "qualitative/sample_07/baseline/11!_Final state (timeout).png",
+          "img": "qualitative/sample_07/baseline/9!_Final state (timeout).png",
           "caption": "Final state (timeout)",
           "bad": true
         }
@@ -417,52 +407,27 @@
           "bad": false
         },
         {
-          "img": "qualitative/sample_02/baseline/4!_Protrudes.png",
-          "caption": "Protrudes",
-          "bad": true
-        },
-        {
-          "img": "qualitative/sample_02/baseline/5!_Collision.png",
-          "caption": "Collision",
-          "bad": true
-        },
-        {
-          "img": "qualitative/sample_02/baseline/6_Place bowl.png",
+          "img": "qualitative/sample_02/baseline/4_Place bowl.png",
           "caption": "Place bowl",
           "bad": false
         },
         {
-          "img": "qualitative/sample_02/baseline/7!_Collision.png",
-          "caption": "Collision",
+          "img": "qualitative/sample_02/baseline/5!_Place bowl (TAMP failure).png",
+          "caption": "Place bowl (TAMP failure)",
           "bad": true
         },
         {
-          "img": "qualitative/sample_02/baseline/8!_Collision.png",
-          "caption": "Collision",
-          "bad": true
-        },
-        {
-          "img": "qualitative/sample_02/baseline/9!_Collision.png",
-          "caption": "Collision",
-          "bad": true
-        },
-        {
-          "img": "qualitative/sample_02/baseline/10_Move bowl aside.png",
+          "img": "qualitative/sample_02/baseline/6_Move bowl aside.png",
           "caption": "Move bowl aside",
           "bad": false
         },
         {
-          "img": "qualitative/sample_02/baseline/11!_Collision.png",
-          "caption": "Collision",
+          "img": "qualitative/sample_02/baseline/7!_Place bowl (TAMP failure).png",
+          "caption": "Place bowl (TAMP failure)",
           "bad": true
         },
         {
-          "img": "qualitative/sample_02/baseline/12!_Collision.png",
-          "caption": "Collision",
-          "bad": true
-        },
-        {
-          "img": "qualitative/sample_02/baseline/13!_Final state (timeout).png",
+          "img": "qualitative/sample_02/baseline/8!_Final state (timeout).png",
           "caption": "Final state (timeout)",
           "bad": true
         }
@@ -723,27 +688,22 @@
           "bad": false
         },
         {
-          "img": "qualitative/sample_05/baseline/4!_Collision.png",
-          "caption": "Collision",
+          "img": "qualitative/sample_05/baseline/4!_Place cabbage (TAMP failure).png",
+          "caption": "Place cabbage (TAMP failure)",
           "bad": true
         },
         {
-          "img": "qualitative/sample_05/baseline/5!_Collision.png",
-          "caption": "Collision",
-          "bad": true
-        },
-        {
-          "img": "qualitative/sample_05/baseline/6_Shift cabbage.png",
+          "img": "qualitative/sample_05/baseline/5_Shift cabbage.png",
           "caption": "Shift cabbage",
           "bad": false
         },
         {
-          "img": "qualitative/sample_05/baseline/7!_Collision.png",
-          "caption": "Collision",
+          "img": "qualitative/sample_05/baseline/6!_Place cabbage (TAMP failure).png",
+          "caption": "Place cabbage (TAMP failure)",
           "bad": true
         },
         {
-          "img": "qualitative/sample_05/baseline/8!_Final state (timeout).png",
+          "img": "qualitative/sample_05/baseline/7!_Final state (timeout).png",
           "caption": "Final state (timeout)",
           "bad": true
         }
