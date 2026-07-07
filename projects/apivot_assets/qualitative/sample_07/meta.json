@@ -1,0 +1,8 @@
+{
+  "instruction": "Sort the tomato and artichoke by type in the braisers, and then store the braisers in the fridge.",
+  "task": "storing_leftovers",
+  "baseline_name": "VLM-TAMP",
+  "ours_outcome": "feasible plan",
+  "baseline_outcome": "out of space",
+  "description": "APIVOT sorts the food, removes obstacles, and places the braisers in a constrained fridge. VLM-TAMP’s imprecise placements lead to repeated retries and eventual timeout."
+}

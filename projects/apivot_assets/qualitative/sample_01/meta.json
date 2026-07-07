@@ -1,0 +1,8 @@
+{
+  "instruction": "Store the bowls inside the minifridge.",
+  "task": "containment",
+  "baseline_name": "Gemini-ER-1.5",
+  "ours_outcome": "feasible plan",
+  "baseline_outcome": "collision",
+  "description": "APIVOT first clears the pot to create space for the bowls. Gemini-ER-1.5 recognizes the constraint too late, retries multiple placements, and times out."
+}

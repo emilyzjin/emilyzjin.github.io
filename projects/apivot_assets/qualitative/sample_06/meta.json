@@ -1,0 +1,8 @@
+{
+  "instruction": "Sort the potato and tomato by type in the braisers, and then store the braisers in the fridge.",
+  "task": "storing_leftovers",
+  "baseline_name": "Gemini-ER-1.5",
+  "ours_outcome": "feasible plan",
+  "baseline_outcome": "collision",
+  "description": "APIVOT sorts the objects and fits the two large braisers precisely in the fridge. Gemini-ER-1.5 sorts correctly but cannot fit both braisers inside."
+}

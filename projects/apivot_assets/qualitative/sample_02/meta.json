@@ -1,0 +1,8 @@
+{
+  "instruction": "Store the bowls inside the minifridge.",
+  "task": "containment",
+  "baseline_name": "VLM-TAMP",
+  "ours_outcome": "feasible plan",
+  "baseline_outcome": "out of space",
+  "description": "APIVOT places bowls precisely while preserving space for future placements. VLM-TAMP fails to reserve enough room, making the final placement infeasible."
+}

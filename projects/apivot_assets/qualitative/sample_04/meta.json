@@ -1,0 +1,8 @@
+{
+  "instruction": "Sort the zucchini and cabbage by type in the braisers.",
+  "task": "sorting",
+  "baseline_name": "Gemini-ER-1.5",
+  "ours_outcome": "feasible plan",
+  "baseline_outcome": "protrusion",
+  "description": "Both methods initially choose the correct braiser assignment. APIVOT succeeds through precise placement, while Gemini-ER-1.5 fails and then switches to an infeasible assignment."
+}

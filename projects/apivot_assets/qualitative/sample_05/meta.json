@@ -1,0 +1,8 @@
+{
+  "instruction": "Sort the cabbage and potato by type in the braisers.",
+  "task": "sorting",
+  "baseline_name": "VLM-TAMP",
+  "ours_outcome": "feasible plan",
+  "baseline_outcome": "collision",
+  "description": "Although the potato is larger, there are more cabbages. APIVOT assigns cabbages to the larger braiser to allow more placement flexibility, while VLM-TAMP chooses the opposite assignment and fails."
+}

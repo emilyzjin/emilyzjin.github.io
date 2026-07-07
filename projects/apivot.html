@@ -624,10 +624,10 @@ footer .fbrand{color:var(--accent);font-weight:600;letter-spacing:.03em}
   <p class="affil">Stanford University&ensp;&middot;&ensp;<sup>&dagger;</sup>Equal advising</p>
 
   <div class="btn-row">
-    <span class="btn btn-primary btn-disabled" aria-disabled="true">
+    <a class="btn btn-primary" href="../pdfs/apivot.pdf" target="_blank">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
       Paper
-    </span>
+    </a>
     <span class="btn btn-primary btn-disabled" aria-disabled="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
       arXiv
@@ -745,7 +745,7 @@ footer .fbrand{color:var(--accent);font-weight:600;letter-spacing:.03em}
   <div class="wrap">
     <h2 class="h2c">Results</h2>
     <p class="lead">We evaluate <span class="apv">APIVOT</span> on three long-horizon KitchenWorlds tasks: Containment <span class="idtag">(ID)</span>, Sorting <span class="idtag">(ID)</span>, and Storing Leftovers <span class="idtag">(OOD)</span>. <span class="apv">APIVOT</span> improves planning success over general-purpose VLMs, VLM-based planners (<strong>+8.1 points</strong>), and symbolic planning baselines (<strong>+9.0 points</strong>).</p>
-    <p class="lead" style="margin-top:18px">These gains are consistent across all three task families, including the held-out Storing Leftovers task. This suggests that interleaved language and visual reasoning supports generalization to new task compositions beyond the training distribution.</p>
+    <p class="lead" style="margin-top:18px">These gains are consistent across all three task families, including the held-out Storing Leftovers task which composes the two seen tasks (Containment, Sorting) into a longer horizon task. This suggests that interleaved language and visual reasoning supports generalization to new task compositions beyond the training distribution.</p>
 
     <!-- Task description cards (commented out)
     <div class="task-cards">
@@ -810,12 +810,12 @@ footer .fbrand{color:var(--accent);font-weight:600;letter-spacing:.03em}
     <div class="subsection">
       <h3 class="subhead" style="text-align:center">Additional Results</h3>
       <div class="ar-tabs" id="ar-tabs">
-        <button class="ar-tab" data-i="0">Robust Under Geometric Complexity<svg class="ar-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="ar-tab active" data-i="0">Robust Under Geometric Complexity<svg class="ar-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <button class="ar-tab" data-i="1">Visual Thoughts Are Token-Efficient<svg class="ar-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <button class="ar-tab" data-i="2">Reasoning Modes at Inference-Time<svg class="ar-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
       </div>
 
-      <div class="ar-panel" data-i="0">
+      <div class="ar-panel active" data-i="0">
         <div class="figure"><img src="apivot_assets/goal_area_performance.png" alt="Grouped bar chart of success rate by goal-area occupancy for five methods; APIVOT leads at every level, with the largest margin under the most geometric constraints."></div>
         <ul class="keypoints">
           <li>We analyze performance as scenes become more geometrically constrained. We define an occupancy ratio that measures how crowded the available space is.</li>
