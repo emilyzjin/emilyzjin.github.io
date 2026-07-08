@@ -747,8 +747,8 @@ footer .fbrand{color:var(--accent);font-weight:600;letter-spacing:.03em}
 <section id="results">
   <div class="wrap">
     <h2 class="h2c">Results</h2>
-    <p class="lead">We evaluate <span class="apv">APIVOT</span> on three long-horizon KitchenWorlds tasks: two in-distribution tasks (Containment, Sorting), and a held-out, longer-horizon task that composes both (Storing Leftovers). <span class="apv">APIVOT</span> improves planning success over general-purpose VLMs (Gemini-ER-1.5, <strong>+8.1 points</strong>) and planning baselines (VLM-TAMP, <strong>+9.0 points</strong>).</p>
-    <p class="lead" style="margin-top:18px">These gains are consistent across all three task families, including the held-out Storing Leftovers task which composes the two seen tasks (Containment, Sorting) into a longer horizon task. This suggests that interleaved language and visual reasoning supports generalization to new task compositions beyond the training distribution.</p>
+    <p class="lead">We evaluate <span class="apv">APIVOT</span> on three long-horizon KitchenWorlds task families: Containment and Sorting, which are in-distribution (ID), and Storing Leftovers, a held-out, out-of-distribution (OOD) task that composes the two ID ones.</p>
+    <p class="lead" style="margin-top:18px"><span class="apv">APIVOT</span> improves planning success over general-purpose VLMs (Gemini-ER-1.5, <strong>+8.1 points</strong>) and planning baselines (VLM-TAMP, <strong>+9.0 points</strong>). Its gains are consistent across all three task families, including the held-out composition, suggesting that interleaved language and visual reasoning supports generalization beyond the training distribution.</p>
 
     <!-- Task description cards (commented out)
     <div class="task-cards">
